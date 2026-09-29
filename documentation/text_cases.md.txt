@@ -1,0 +1,147 @@
+# Test Cases
+
+## Purpose
+
+These test cases verify that the AI Resume Screening System correctly extracts resume information, evaluates job requirements, and stores the results for recruiter review.
+
+---
+
+## Test Case 1 — Complete Resume
+
+**Input:** Candidate resume containing education, skills, and experience.
+
+**Expected Result:**
+- Candidate name extracted correctly
+- Education extracted correctly
+- Skills extracted correctly
+- Experience extracted correctly
+- Requirements classified as Matched, Partial, or Missing
+- Requirement coverage calculated
+- Review Status set to Human Review
+
+**Status:** Passed
+
+---
+
+## Test Case 2 — Resume Missing Required Skills
+
+**Input:** Resume does not contain some required skills such as Power BI or Prompt Engineering.
+
+**Expected Result:**
+- Skills that are explicitly present are marked as Matched
+- Missing skills are listed under Missing Requirements
+- AI does not invent skills
+- Requirement coverage reflects only supported requirements
+
+**Status:** Passed
+
+---
+
+## Test Case 3 — Partial Requirement Match
+
+**Input:** Resume contains related experience but does not explicitly mention the exact requirement.
+
+**Example:**
+Data visualization experience but no explicit Power BI experience.
+
+**Expected Result:**
+- The requirement should not automatically be marked as Matched
+- Related evidence can be classified as Partial
+- AI should explain the available evidence
+
+**Status:** Passed
+
+---
+
+## Test Case 4 — Missing Information
+
+**Input:** Resume does not contain education or experience information.
+
+**Expected Result:**
+- Missing information should be reported as "Not specified"
+- AI should not invent information
+- Workflow should continue without creating fictional data
+
+**Status:** Passed
+
+---
+
+## Test Case 5 — PDF Resume Extraction
+
+**Input:** PDF resume uploaded to the Google Drive Resumes folder.
+
+**Expected Result:**
+- n8n detects the new PDF
+- PDF is downloaded
+- Resume text is extracted
+- Extracted text is sent to the AI model
+
+**Status:** Passed
+
+---
+
+## Test Case 6 — Google Sheets Output
+
+**Input:** Successfully analyzed resume.
+
+**Expected Result:**
+- Candidate information is added to Google Sheets
+- Matched Requirements are stored
+- Partial Requirements are stored
+- Missing Requirements are stored
+- Requirement Coverage is stored
+- Review Status is stored as Human Review
+
+**Status:** Passed
+
+---
+
+## Test Case 7 — Human Review
+
+**Input:** AI-generated candidate analysis.
+
+**Expected Result:**
+- AI provides evidence-based analysis
+- AI does not make the final hiring decision
+- Recruiter can review the candidate information before making a decision
+
+**Status:** Passed
+
+---
+
+## Test Case 8 — Protected or Irrelevant Information
+
+**Input:** Resume contains information such as age, gender, religion, marital status, nationality, or other irrelevant personal information.
+
+**Expected Result:**
+- Such information should not be used to evaluate the candidate
+- Candidate evaluation should focus only on job-related qualifications and evidence
+
+**Status:** Passed
+
+---
+
+## Test Case 9 — Multiple Resumes
+
+**Input:** Multiple candidate resumes uploaded to the Google Drive folder.
+
+**Expected Result:**
+- Each resume is processed separately
+- Each candidate gets a separate analysis
+- Results are added to Google Sheets
+- Candidate information from one resume should not appear in another candidate's analysis
+
+**Status:** Passed
+
+---
+
+## Test Case 10 — AI Hallucination Check
+
+**Input:** Resume contains limited information.
+
+**Expected Result:**
+- AI uses only information explicitly available in the resume
+- AI does not invent skills, education, experience, or candidate names
+- Missing information is reported instead of being guessed
+
+**Status:** Passed

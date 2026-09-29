@@ -1,0 +1,42 @@
+# AI Resume Screening & Candidate Analysis System
+
+## Project Overview
+
+The AI Resume Screening & Candidate Analysis System is an AI-powered recruitment support system designed to reduce the repetitive work involved in manually reviewing resumes.
+
+The system takes candidate resumes in PDF format, extracts the resume information, analyzes it against a predefined Business Analyst job description, and converts the results into structured candidate data.
+
+The system is designed as a **Human-in-the-Loop** solution. AI provides evidence-based candidate analysis, while the final recruitment decision remains with the human recruiter.
+
+---
+
+## Problem Statement
+
+Recruiters may need to review a large number of resumes for a single job opening. Manually extracting skills, education, experience, and matching them against job requirements can be repetitive and time-consuming.
+
+The goal of this project is to automate the repetitive analysis process while keeping the recruiter involved in the final decision.
+
+---
+
+## Proposed Solution
+
+The system automates the following workflow:
+
+```text
+Resume PDF
+     ↓
+Google Drive
+     ↓
+n8n Automation
+     ↓
+PDF Text Extraction
+     ↓
+AI Resume Analysis
+     ↓
+Structured Candidate Data
+     ↓
+Google Sheets
+     ↓
+Power BI Dashboard
+     ↓
+Human Recruiter Review

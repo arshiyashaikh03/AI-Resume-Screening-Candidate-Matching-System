@@ -1,0 +1,15 @@
+# Data Dictionary
+
+| Field | Description |
+|---|---|
+| Candidate ID | Unique candidate identifier |
+| Candidate Name | Name extracted from resume |
+| Education | Education explicitly stated |
+| Skills | Skills found in resume |
+| Experience | Relevant experience found |
+| Matched Skills | Job requirements supported by resume evidence |
+| Missing Skills | Required skills not found |
+| Requirement Coverage | Number of requirements with evidence |
+| Experience Evidence | Resume evidence related to experience |
+| AI Summary | Short factual summary |
+| Review Status | Indicates that human review is required |

@@ -1,0 +1,23 @@
+# System Architecture
+
+Resume PDF
+    ↓
+Google Drive
+    ↓
+n8n Google Drive Trigger
+    ↓
+Google Drive Download
+    ↓
+Extract From File
+    ↓
+Resume Text
+    ↓
+AI Analysis
+    ↓
+Structured Output Parser
+    ↓
+Google Sheets
+    ↓
+Power BI
+    ↓
+Recruiter Dashboard

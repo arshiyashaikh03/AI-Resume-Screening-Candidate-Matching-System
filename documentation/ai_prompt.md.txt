@@ -1,0 +1,11 @@
+Input
+↓
+Resume text + Job description
+
+Processing
+↓
+AI requirement comparison
+
+Output
+↓
+Structured JSON

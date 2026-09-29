@@ -1,0 +1,391 @@
+{
+  "name": "AI Resume Screening System",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1yGgsycFtWrgflfvL7PY4dGD2y6bL4yex",
+          "mode": "list",
+          "cachedResultName": "resumes",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1yGgsycFtWrgflfvL7PY4dGD2y6bL4yex"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cded3bbf-dd85-4755-84b7-14173c61bbad",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Pw5eczenKAfIR23i",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "76d61a27-a9c4-4c6d-81d9-052b2785142b",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Pw5eczenKAfIR23i",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "d0e5ca84-89cf-4045-acf8-c53b64e23e6e",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=You are an AI Business Analyst assisting a recruiter.\n\nAnalyze the candidate resume against the AI Business Analyst job requirements.\n\nUse ONLY information explicitly present in the resume.\n\nDo not infer or use:\n- age\n- gender\n- religion\n- nationality\n- disability\n- marital status\n- photo\n- address\n- other protected or irrelevant personal characteristics\n\nDo not make a final hire/reject decision.\n\nEvaluate these 9 required requirements:\n\n1. SQL\n2. Microsoft Excel\n3. Power BI\n4. Business Analysis\n5. Generative AI\n6. Prompt Engineering\n7. Communication\n8. Requirements Gathering\n9. Process Mapping\n\nDefinitions:\n- Matched = clearly supported by evidence in the resume.\n- Partial = related evidence exists, but the requirement is not clearly demonstrated.\n- Missing = no relevant evidence found.\n- Requirement coverage = number of matched requirements out of 9.\n\nReturn the requested structured fields only.\n\nCANDIDATE RESUME:\n\n{{ $('Extract from File').item.json.text }}"
+            },
+            {
+              "content": "=You are an AI Business Analyst assisting a recruiter.\n\nYour task is to analyze ONLY the candidate resume provided below.\n\nCRITICAL RULES:\n\n1. NEVER invent or assume information.\n2. Use ONLY information explicitly present in the candidate resume.\n3. The candidate_name MUST come directly from the resume.\n4. Education MUST come directly from the resume.\n5. Experience MUST come directly from the resume.\n6. Skills MUST come directly from the resume.\n7. If information is not present, write \"Not specified\".\n8. Do NOT create fictional names such as John Doe.\n9. Do NOT invent years of experience.\n10. Do NOT infer experience duration beyond what is explicitly written.\n11. Do NOT use information from previous examples, previous candidates, or previous executions.\n12. Treat every resume as a completely new candidate.\n\nEvaluate ONLY these 9 requirements:\n\n1. SQL\n2. Microsoft Excel\n3. Power BI\n4. Business Analysis\n5. Generative AI\n6. Prompt Engineering\n7. Communication\n8. Requirements Gathering\n9. Process Mapping\n\nClassification rules:\n\nMATCHED:\nThe requirement is explicitly supported by the resume.\n\nPARTIAL:\nThe resume contains related evidence, but the exact requirement is not clearly demonstrated.\n\nMISSING:\nThere is no relevant evidence for the requirement.\n\nIMPORTANT:\nDo not classify unrelated skills as requirements.\n\nFor example:\n- Python is NOT automatically Generative AI.\n- Data Visualization is NOT automatically Power BI.\n- Data Analysis is NOT automatically Business Analysis.\n- Project Management is NOT automatically Requirements Gathering.\n- Tableau is NOT Power BI.\n- Python is NOT Prompt Engineering.\n\nEach of the 9 requirements must appear in exactly ONE of:\n- matched_requirements\n- partial_requirements\n- missing_requirements\n\nrequirement_coverage must equal:\n\nnumber of matched requirements / 9\n\nCANDIDATE RESUME\n----------------\n{{ $('Extract from File').item.json.text }}\n----------------\n\nAnalyze ONLY the resume between the lines above."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_schema",
+              "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"candidate_name\": {\n      \"type\": \"string\"\n    },\n    \"education\": {\n      \"type\": \"string\"\n    },\n    \"skills\": {\n      \"type\": \"string\"\n    },\n    \"experience\": {\n      \"type\": \"string\"\n    },\n    \"matched_requirements\": {\n      \"type\": \"string\"\n    },\n    \"partial_requirements\": {\n      \"type\": \"string\"\n    },\n    \"missing_requirements\": {\n      \"type\": \"string\"\n    },\n    \"requirement_coverage\": {\n      \"type\": \"string\"\n    },\n    \"experience_evidence\": {\n      \"type\": \"string\"\n    },\n    \"ai_summary\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"candidate_name\",\n    \"education\",\n    \"skills\",\n    \"experience\",\n    \"matched_requirements\",\n    \"partial_requirements\",\n    \"missing_requirements\",\n    \"requirement_coverage\",\n    \"experience_evidence\",\n    \"ai_summary\"\n  ],\n  \"additionalProperties\": false\n}"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        0
+      ],
+      "id": "5b67f92a-0223-4862-ac4c-095b5f7053d2",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e952282a-4b2b-49d6-ad2a-650b9da119b8",
+              "name": "resume_file",
+              "value": "={{ $('Google Drive Trigger').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        672,
+        0
+      ],
+      "id": "fef27c68-3d72-411b-8b51-228b4f4aeefc",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "19DpQReYFuR1PdNdiCjdBPbhLBVkglC8mrlQQD0Ow-sM",
+          "mode": "list",
+          "cachedResultName": "AI Resume Screening Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19DpQReYFuR1PdNdiCjdBPbhLBVkglC8mrlQQD0Ow-sM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidates",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19DpQReYFuR1PdNdiCjdBPbhLBVkglC8mrlQQD0Ow-sM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Candidate Name": "={{ $json.output[0].content[0].text.candidate_name }}",
+            "Education": "={{ $json.output[0].content[0].text.education }}",
+            "Skills": "={{ $json.output[0].content[0].text.skills }}",
+            "Experience": "={{ $json.output[0].content[0].text.experience }}",
+            "Matched Requirements": "={{ $json.output[0].content[0].text.matched_requirements }}",
+            "Partial Requirements": "={{ $json.output[0].content[0].text.partial_requirements }}",
+            "Missing Requirements": "={{ $json.output[0].content[0].text.missing_requirements }}",
+            "Requirement Coverage": "={{ $json.output[0].content[0].text.requirement_coverage }}",
+            "Experience Evidence": "={{ $json.output[0].content[0].text.experience_evidence }}",
+            "AI Summary": "={{ $json.output[0].content[0].text.ai_summary }}",
+            "Review Status": "Human Review",
+            "Resume File": "={{ $('Edit Fields').item.json.resume_file }}",
+            "Candidate ID": "="
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Candidate ID",
+              "displayName": "Candidate ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Candidate Name",
+              "displayName": "Candidate Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Education",
+              "displayName": "Education",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Skills",
+              "displayName": "Skills",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Experience",
+              "displayName": "Experience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Matched Requirements",
+              "displayName": "Matched Requirements",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Partial Requirements",
+              "displayName": "Partial Requirements",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Missing Requirements",
+              "displayName": "Missing Requirements",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requirement Coverage",
+              "displayName": "Requirement Coverage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Experience Evidence",
+              "displayName": "Experience Evidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AI Summary",
+              "displayName": "AI Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Resume File",
+              "displayName": "Resume File",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1264,
+        0
+      ],
+      "id": "382b489f-cddc-47ce-ba50-c48da674d6f2",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1qy3KHvQAX0wixP9",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9fddf70c-f645-4146-98bb-769390df1750",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "041beca90bc663782eb27d521d5524bfd98944e24210b0be2e82cc47c0ce6b8e"
+  },
+  "nodeGroups": [],
+  "id": "aTqsDsYUbeyi5122",
+  "tags": []
+}

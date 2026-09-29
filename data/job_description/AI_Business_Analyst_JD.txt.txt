@@ -1,0 +1,92 @@
+# AI Business Analyst
+
+## About the Role
+
+We are looking for an AI Business Analyst who can understand business requirements, analyze data, work with AI tools, and identify opportunities for process improvement and automation.
+
+The candidate will work between business teams and technology teams to understand problems, document requirements, analyze data, and support AI-powered solutions.
+
+## Required Skills
+
+### 1. SQL
+
+Ability to query and analyze structured business data using SQL.
+
+### 2. Microsoft Excel
+
+Ability to clean, organize, analyze, and present business data using Excel.
+
+### 3. Power BI
+
+Ability to create dashboards, reports, KPIs, and business insights using Power BI.
+
+### 4. Business Analysis
+
+Understanding of business problems, requirements analysis, stakeholder needs, and process improvement.
+
+### 5. Generative AI
+
+Understanding of Generative AI concepts and practical business applications.
+
+### 6. Prompt Engineering
+
+Ability to design effective prompts for AI models to generate useful and structured outputs.
+
+### 7. Communication
+
+Ability to communicate business requirements, findings, and recommendations clearly.
+
+### 8. Requirements Gathering
+
+Ability to identify, document, and analyze business and functional requirements.
+
+### 9. Process Mapping
+
+Ability to document and understand current and future business processes.
+
+## Preferred Skills
+
+* n8n
+* Zapier
+* API integration
+* JSON
+* Python
+* AI automation
+* Data visualization
+
+## Responsibilities
+
+* Gather and document business requirements.
+* Analyze business and operational data.
+* Create dashboards and reports.
+* Identify process improvement opportunities.
+* Support AI and automation initiatives.
+* Design and test AI-assisted workflows.
+* Communicate insights to business and technical stakeholders.
+* Document requirements, workflows, and process changes.
+* Assist teams in evaluating AI-powered business solutions.
+
+## Education
+
+Bachelor's degree in Computer Science, Information Technology, Business Analytics, Data Analytics, Business Administration, or a related field.
+
+## Experience
+
+Internship or project experience in business analysis, data analytics, AI, automation, or related areas is preferred.
+
+## Important Evaluation Principle
+
+Candidate information must be evaluated only using job-related evidence explicitly present in the resume.
+
+The system should not consider protected or irrelevant personal characteristics such as:
+
+* Gender
+* Religion
+* Nationality
+* Age
+* Disability
+* Marital status
+* Photograph
+* Address
+
+The AI system provides structured analysis for recruiter review and does not make the final hiring decision.

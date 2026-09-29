@@ -1,0 +1,13 @@
+{
+  "candidate_name": "Candidate A",
+  "education": "B.Tech in Computer Science",
+  "skills": "SQL, Excel, Power BI, Python, Generative AI, Prompt Engineering, Communication",
+  "experience": "Data Analytics Intern — 6 months",
+  "matched_requirements": "SQL, Microsoft Excel, Power BI, Generative AI, Prompt Engineering, Communication",
+  "partial_requirements": "Business Analysis",
+  "missing_requirements": "Requirements Gathering, Process Mapping",
+  "requirement_coverage": "6/9",
+  "experience_evidence": "Worked on sales and customer churn dashboards and used SQL, Excel and Power BI for data analysis.",
+  "ai_summary": "The candidate demonstrates relevant experience in data analytics with evidence of SQL, Excel, Power BI, Generative AI, Prompt Engineering and Communication. Business Analysis has partial evidence. Requirements Gathering and Process Mapping are not explicitly demonstrated.",
+  "review_status": "Human Review"
+}
